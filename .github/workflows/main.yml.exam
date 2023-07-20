@@ -1,0 +1,24 @@
+name: github action 테스트
+
+on: [push] # push 이벤트가 발생했을 때 작업 수행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 소스코드를 ubuntu 에 복사
+      - name: 소스코드를 ubuntu에 복사
+        uses: actions/checkout@v2
+        # ubuntu 에 python 개발환경 구축
+      - name: ubuntu 에 python 개발환경 구축
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+        # python.main.py 명령어 실행
+      - name: python main.py 명령어 실행
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          WHEATHER_URL: ${{ secrets.WHEATHER_URL }}
+
+        run: python main.py

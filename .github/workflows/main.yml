@@ -1,0 +1,25 @@
+name: slack weather action
+
+on: [push] # push 이벤트가 발생했을 때 작업 수행
+# on:
+#   schedule:
+#     - cron: "0 22 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 소스코드를 ubuntu 에 복사
+      - name: copy code in ubuntu
+        uses: actions/checkout@v2
+      # ubuntu 에 python 개발환경 구축
+      - name: build python environment in ubuntu
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+      # python 모듈 설치
+      - name: install module
+        run: poetry install --no-root
+      # python.main.py 명령어 실행
+      - name: python main.py 명령어 실행
+        run: poetry shell & python src/main.py
