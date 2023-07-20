@@ -34,4 +34,4 @@ jobs:
 
       # python.main.py 명령어 실행
       - name: Python main.py 명령어 실행
-        run: poetry run src/main.py
+        run: poetry run python src/main.py
