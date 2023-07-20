@@ -30,7 +30,7 @@ jobs:
       - name: Install poetry
         run: |
           pip install poetry
-          poetry install --no-interaction
+          poetry install --no-root
 
       # python.main.py 명령어 실행
       - name: Python main.py 명령어 실행
