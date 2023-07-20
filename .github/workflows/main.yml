@@ -7,19 +7,31 @@ on: [push] # push 이벤트가 발생했을 때 작업 수행
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.11]
     steps:
       # 소스코드를 ubuntu 에 복사
-      - name: copy code in ubuntu
+      - name: Copy code in ubuntu
         uses: actions/checkout@v2
+
       # ubuntu 에 python 개발환경 구축
-      - name: build python environment in ubuntu
+      - name: Build python environment in ubuntu
         uses: actions/setup-python@v2
         with:
-          python-version: "3.11"
-      # python 모듈 설치
-      - name: install module
-        run: poetry install --no-root
+          python-version: ${{ matrix.python-version }}
+
+      - name: Update pip
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Install poetry
+        run: |
+          pip install poetry
+          poetry install --no-interaction
+
       # python.main.py 명령어 실행
-      - name: python main.py 명령어 실행
-        run: poetry shell & python src/main.py
+      - name: Python main.py 명령어 실행
+        run: poetry run src/main.py
